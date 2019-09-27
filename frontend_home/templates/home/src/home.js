@@ -6,11 +6,11 @@ export class Home extends Component {
   render() {
     return (
       <div>
-        <Navigation />
+	      {/* <Navigation /> */}
         <Header />
-        <AboutSection />
-        <ContactSection />
-        <Footer />
+	      {/* <AboutSection /> */}
+	      {/* <ContactSection /> */}
+	      {/* <Footer /> */}
       </div>
     )
   }
@@ -79,21 +79,49 @@ class Navigation extends Component {
   }
 }
   
-  class Header extends Component {
-    render() {
-      return (
-        <header className="masthead">
-          <div className="container d-flex h-100 align-items-center">
-            <div className="mx-auto text-center">
-              <h1 className="mx-auto my-0 text-uppercase">MM合同工作流</h1>
-              <h2 className="text-white-50 mx-auto mt-2 mb-5">简单, 高效的工作流</h2>
-              <a href="/api/experience/" className="btn btn-info js-scroll-trigger">一键体验</a>
-            </div>
-          </div>
-        </header>
-      )
-    }
+class Header extends Component {
+
+  constructor(props) {
+    super(props);
+      this.state = {
+        selectedFile: null
+      }
+   
   }
+
+  onChangeHandler=event=>{
+    this.setState({
+      selectedFile: event.target.files[0],
+      loaded: 0,
+    })
+  }
+
+  onClickHandler = () => {
+    const data = new FormData() 
+    data.append('file', this.state.selectedFile)
+    axios.post("/api/text-analysis/", data, {
+    })
+    .then(res => {
+      console.log(res)
+    })
+  }
+
+  render() {
+    return (
+      <header className="masthead">
+        <div className="container d-flex h-100 align-items-center">
+          <div className="mx-auto text-center">
+            {/* <h1 className="mx-auto my-0 text-uppercase">MM合同工作流</h1> */}
+            {/* <h2 className="text-white-50 mx-auto mt-2 mb-5">简单, 高效的工作流</h2> */}
+            <input type="file" name="file" onChange={this.onChangeHandler}/>
+            <button type="button" class="btn btn-success btn-block" onClick={this.onClickHandler}>Upload</button> 
+            {/* <a href="/api/experience/" className="btn btn-info js-scroll-trigger">一键体验</a> */}
+          </div>
+        </div>
+      </header>
+    )
+  }
+}
   
   class AboutSection extends Component {
     render() {
