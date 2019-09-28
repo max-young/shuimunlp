@@ -84,9 +84,10 @@ class Header extends Component {
   constructor(props) {
     super(props);
       this.state = {
-        selectedFile: null
+        selectedFile: null,
+          positiveProbability: "",
+        keywords: []
       }
-   
   }
 
   onChangeHandler=event=>{
@@ -102,7 +103,11 @@ class Header extends Component {
     axios.post("/api/text-analysis/", data, {
     })
     .then(res => {
-      console.log(res)
+        console.log(res.data)
+        this.setState({
+          positiveProbability: res.data.positive_probability,
+          keywords: res.data.keywords
+        })
     })
   }
 
@@ -111,11 +116,18 @@ class Header extends Component {
       <header className="masthead">
         <div className="container d-flex h-100 align-items-center">
           <div className="mx-auto text-center">
-            {/* <h1 className="mx-auto my-0 text-uppercase">MM合同工作流</h1> */}
-            {/* <h2 className="text-white-50 mx-auto mt-2 mb-5">简单, 高效的工作流</h2> */}
-            <input type="file" name="file" onChange={this.onChangeHandler}/>
-            <button type="button" class="btn btn-success btn-block" onClick={this.onClickHandler}>Upload</button> 
-            {/* <a href="/api/experience/" className="btn btn-info js-scroll-trigger">一键体验</a> */}
+            <div>
+              <input type="file" name="file" onChange={this.onChangeHandler}/>
+              <button type="button" class="btn btn-success btn-block" onClick={this.onClickHandler}>Upload</button> 
+            </div>
+            <h1>    </h1>
+            <div>
+              <h4>积极的概率: <span>{ this.state.positiveProbability }</span></h4>
+              <h4>关键词:</h4>
+              {this.state.keywords.map((word) => {
+                return <p>{word}</p>;
+              })}
+            </div>
           </div>
         </div>
       </header>

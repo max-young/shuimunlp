@@ -83,20 +83,11 @@ WSGI_APPLICATION = 'mmflowproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('DATABASE_NAME', 'mmflow'),
-        'USER': config('DATABASE_USER', 'root'),
-        'PASSWORD': config('DATABASE_PASSWORD', 'Yangle123'),
-        'HOST': config('DATABASE_HOST', 'host.docker.internal'),
-        'OPTIONS': {
-            # 消除migrate时出现的此警告:
-            # Warning: (3719, "'utf8' is currently an alias for the character set UTF8MB3,
-            # but will be an alias for UTF8MB4 in a future release.
-            # Please consider using UTF8MB4 in order to be unambiguous."
-            'charset': 'utf8mb4',
-        }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
